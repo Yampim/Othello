@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>
+			クライアント側のみで作るオセロ
+		</title>
+		<link href="オセロ.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+		<script type="text/javascript" src="オセロ.js"></script>
+	</head>
+	<body>
+		<hr />
+			<h1 style="text-align: center;">クライアント側のみで作るオセロ</h1>
+		<hr />
+		<br />
+		<div id="brank-bar"></div>
+		<div id=div-container>
+			<div id="information-bar">
+				<table>
+					<tr id="game-player">
+						<td>PLAYER</td>
+						<td> : </td>
+						<td><span id="game-player-name"></span></td>
+					</tr>
+					<tr id="mas-count">
+						<td><div id="white-count-label">WHITE</div></td>
+						<td><span class="separator">:</span></td>
+						<td><span id="white-count"></span><div id="black-count-label">/ BLACK</div><span class="separator">:</span><span id="black-count"></span></td>
+					</tr>
+				</table>
+			</div>
+			<div id="game-board"></div>
+			<div id="brank-bar"></div>
+			<div id=button-container>
+				<ul>
+					<li><input type="button" class="square_btn" value="PASS" onclick="pass()" /></li>
+					<li><input type="button" class="square_btn" value="FINISH" onclick="finish()" /></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
