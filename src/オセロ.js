@@ -364,9 +364,9 @@ function getEnemy() {
 
 function pass() {
 	
-	var result = confirm( "PASSしますか？" );
+	//var result = confirm( "PASSしますか？" );
 
-	if(result){
+	//if(result){
 		//Playerを入れ替える
 		player = getEnemy();
 		enemy = getPlayer();
@@ -376,7 +376,7 @@ function pass() {
 	
 		//Windowを描画する
 		initializeOsero();
-	}
+	//}
 }
 
 function countBoard(target) {
@@ -396,9 +396,9 @@ function finish() {
 	var winner = null;
 	var winnerMessage = null;
 	
-	var result = confirm( "ゲームを終了しますか？" );
+	//var result = confirm( "ゲームを終了しますか？" );
 
-	if(result){
+	//if(result){
 		if(countBoard(0) > 0) {
 			winner = enemy;
 		}
@@ -414,5 +414,10 @@ function finish() {
 		$(initializeState);
 
 		$(initializeOsero);
-	}
+	//}
+}
+
+function restart() {
+		$(initializeState);
+		$(initializeOsero);
 }
