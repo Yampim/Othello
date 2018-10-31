@@ -1,4 +1,4 @@
-@charset "utf-8";()
+﻿@charset "utf-8";()
 
 .osero_table, .osero_row, .osero_mas {
   background-color: Green;
@@ -19,7 +19,7 @@
 
 .osero_mas {
   width: calc(100%/8);
-  height: 100%;
+  height: calc(100%/8);
 }
 
 .disc

@@ -1,4 +1,4 @@
-﻿
+
 var WHITE = 1;
 var BLACK = 2;
 //var CANPUT = 9;
