@@ -1,7 +1,7 @@
-@charset "utf-8";()
+@charset "utf-8";
 
  body {
-   background-color: #e7efff;
+   background-color:#e7efff;
    height:700px;
 }
 
@@ -10,6 +10,6 @@
  }
 
  #body-container {
-   background-color : #e7efff;
+   background-color:#e7efff;
  }
  

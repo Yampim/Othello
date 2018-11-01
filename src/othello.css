@@ -1,25 +1,57 @@
-﻿@charset "utf-8";()
+﻿@charset "utf-8";
 
-.osero_table, .osero_row, .osero_mas {
-  background-color: Green;
-  border-collapse:collapse;
-  border: 1px Black solid;
+.osero_table,.osero_row,.osero_mas {
+  /*Chromeで表示するとなぜか背景色と枠線が反映されない*/
   color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .osero_table {
+  /*Chrome対応*/
+  border-collapse:collapse;
+  
   width: 600px;
   height: 600px;
 }
 
-.osero_row  {
+.osero_row {
   width: 100%;
   height: calc(100%/8);
 }
 
 .osero_mas {
+  /*Chrome対応*/
+  background-color: Green;
+  border: 1px Black solid;
+  
   width: calc(100%/8);
   height: calc(100%/8);
+}
+
+/*Safari対応*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .osero_row {
+      width: 100%;
+      height: calc(100%/8);
+    }
+    .osero_mas {
+      width: calc(100%/8);
+      height: calc(100%/8);
+    }
+    .square_btn {
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #668ad8;/*ボタン色*/
+    color: #1444ad;/*ボタン色より暗く*/
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+    border-bottom: solid 3px #627295;
+    border-radius: 3px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+    width: 90px;
+    height: 40px;
+    }
 }
 
 .disc
@@ -43,7 +75,7 @@
 
 .osero_mas.canPut
 {
-	background: brawn;
+	background: gray;
 }
 
 #game-player, #mas-count {
@@ -70,7 +102,7 @@
 	float:left;
 }
 
-#brank-bar {
+.brank-bar {
 	width: 50px;
 	height: 600px;
 	float:left;
