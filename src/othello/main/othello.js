@@ -20,6 +20,8 @@ $(initializeOsero);
 function initializeState() {
 	
 	  constBoardState = [];
+	  player = BLACK;
+	  enemy = WHITE;
 	  
 	  for (var x = 0; x < rows; x++) {
 		  var rowBoardState = [];
@@ -118,10 +120,12 @@ $(function () {
 						player = getEnemy();
 						enemy = getPlayer();
 						
+						turn++;
+
 						initializeOsero();
 						
-							turn++;
-							
+						think1();
+						
 					} else {
 						constBoardState[row][column] = 0;
 					}
@@ -362,7 +366,7 @@ function getEnemy() {
 	return tempEnemy;
 }
 
-function pass() {
+function pass(UserPassed) {
 	
 	//var result = confirm( "PASSしますか？" );
 
@@ -373,7 +377,11 @@ function pass() {
 	
 		//CountUpする
 		turn++;
-	
+		
+		if(UserPassed) {
+			think1();
+		}
+		
 		//Windowを描画する
 		initializeOsero();
 	//}
@@ -420,4 +428,38 @@ function finish() {
 function restart() {
 		$(initializeState);
 		$(initializeOsero);
+}
+
+function think1() {
+	
+	LOOP: for(var x = 0; x < rows; x++){
+		for(var y = 0; y < columns; y++) {
+			if(constBoardState[x][y] == 0) {
+				
+				constBoardState[x][y] = player;
+				
+				if(checkPut(x, y))
+				{
+					reverseOero(x, y);
+				
+					player = getEnemy();
+					enemy = getPlayer();
+				
+					turn++;
+					
+					break LOOP;
+					
+				} else {
+					constBoardState[x][y] = 0;
+				}
+			}
+			
+			if(x==(rows-1) && y==(columns-1))
+			{
+				pass(false);
+				break;
+			}
+		}
+	}
+	initializeOsero();
 }
