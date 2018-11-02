@@ -1,11 +1,18 @@
 
 var WHITE = 1;
 var BLACK = 2;
-//var CANPUT = 9;
 
 var rows = 8;
 var columns = 8;
 var constBoardState = [];
+var priorityBoard = [[1,6,2,4,4,2,6,1],
+					 [6,6,5,5,5,5,6,6],
+					 [2,2,2,3,3,2,5,2],
+					 [4,5,3,0,0,3,5,4],
+					 [4,5,3,0,0,3,5,4],
+					 [2,5,2,3,3,2,5,2],
+					 [6,6,5,5,5,5,6,6],
+					 [1,6,2,4,4,2,6,1]];
 
 var turn = 1;
 var player = BLACK;
@@ -57,9 +64,6 @@ $('#game-board').empty();
 		  else if (constBoardState[x][y]==BLACK) {
 			  board.push(' black');
 		  }
-//		  else if (constBoardState[x][y]==CANPUT) {
-//			  board.push(' canPut');
-//		  }
 		  board.push('">');
 		  board.push('<div class="disc">');
 		  board.push('<span style="display:none">',x ,y ,'</ span>');
@@ -109,14 +113,6 @@ $(function () {
 							        
 						reverseOero(row, column);
 						
-//						for(var x = 0; x < rows; x++) {
-//							for (var y = 0; y < columns; y++) {
-//								if(checkPut(x, y)) {
-//									constBoardState[x][y] = 9; 
-//								}
-//							}
-//						}
-					
 						player = getEnemy();
 						enemy = getPlayer();
 						
@@ -124,7 +120,7 @@ $(function () {
 
 						initializeOsero();
 						
-						think1();
+						think2();
 						
 					} else {
 						constBoardState[row][column] = 0;
@@ -243,9 +239,8 @@ function reverseOero(row, column) {
 	for (var x = 0; x < 3; x++) {
 		  aroundRow = row + enemyIndexList[x];
 		  for (var y = 0; y < 3; y++) {
-			  aroundColumn = column + enemyIndexList[y]; 
+			  aroundColumn = column + enemyIndexList[y];
 			  if(!isWall(aroundRow, aroundColumn) && isEnemy(aroundRow, aroundColumn)) {
-				  
 					if(checkCanPut(row , column, aroundRow, aroundColumn)) {
 						var reverseCnt = 0;
 						var breakCnt = 0;
@@ -268,7 +263,7 @@ function reverseOero(row, column) {
 						}
 						//Top_Left_Slant, Top_Right_Slant, Bottom_Left_Slant, Bottom_Right_Slant
 						else{
-						      progressRow = aroundRow > row ? row + (1*reverseCnt) : 
+						      progressRow = aroundRow > row ? row + (1*reverseCnt) :
 						    	            aroundRow < row ? row + (-1*reverseCnt) :
 						    		        0;
 						      progressColumn = aroundColumn > column ? column + (1*reverseCnt) :
@@ -313,10 +308,12 @@ function reverseOero(row, column) {
 		}
 }
 
+//置けるマスの一覧を返す
 function showNavigation() {
 	
 }
 
+//相手かどうか判定する
 function isEnemy(row, column){
 	var enemyFlg=false;
 	if(constBoardState[row][column] == enemy) {
@@ -325,6 +322,7 @@ function isEnemy(row, column){
 	return enemyFlg;
 }
 
+//自分かどうか判定する
 function isPlayer(row, column){
 	var playerFlg=false;
 	if(constBoardState[row][column] == player) {
@@ -333,6 +331,7 @@ function isPlayer(row, column){
 	return playerFlg;
 }
 
+//壁を判定する
 function isWall(row, column){
 	var wallFlg = false;
 	if(row < 0 
@@ -344,6 +343,7 @@ function isWall(row, column){
 	return wallFlg;
 }
 
+//自分を取得する
 function getPlayer() {
 	var tempPlayer;
 	if (turn%2==0) {
@@ -355,6 +355,7 @@ function getPlayer() {
 	return tempPlayer;
 }
 
+//相手を取得する
 function getEnemy() {
 	var tempEnemy;
 	if (turn%2==0) {
@@ -366,27 +367,22 @@ function getEnemy() {
 	return tempEnemy;
 }
 
+//パスする
 function pass(UserPassed) {
 	
-	//var result = confirm( "PASSしますか？" );
-
-	//if(result){
-		//Playerを入れ替える
-		player = getEnemy();
-		enemy = getPlayer();
+	//プレイヤーを入れ替える
+	player = getEnemy();
+	enemy = getPlayer();
 	
-		//CountUpする
-		turn++;
-		
-		if(UserPassed) {
-			think1();
-		}
-		
-		//Windowを描画する
-		initializeOsero();
-	//}
+	//ターンを進める
+	turn++;
+	
+	if(UserPassed) {
+		think2();
+	}
 }
 
+//盤の駒数を数える
 function countBoard(target) {
 	var targetCnt = 0;
 	for(var x = 0; x < rows; x++) {
@@ -399,30 +395,28 @@ function countBoard(target) {
 	return targetCnt;
 }
 
+//勝敗を決める
 function finish() {
 
-	var winner = null;
-	var winnerMessage = null;
+	var message = null;
+	var whiteQuantity = countBoard(WHITE);
+	var blackQuantity = countBoard(BLACK);
 	
-	//var result = confirm( "ゲームを終了しますか？" );
+	if(whiteQuantity > blackQuantity) {
+		message = "ゲームの勝者はWHITEです。";
+	}
+	else if (whiteQuantity == blackQuantity) {
+		message = "ゲームは引き分けです。";
+	}
+	else {
+		message = "ゲームの勝者はBLACKです。";
+	}
+	
+	var result = confirm(message);
+	
+	$(initializeState);
 
-	//if(result){
-		if(countBoard(0) > 0) {
-			winner = enemy;
-		}
-		else
-		{
-			winner = countBoard(WHITE) > countBoard(BLACK) ? WHITE: BLACK;
-		}
-		
-		winnerMessage = winner == WHITE ? "WHITE" : "BLACK";
-		
-		var result = confirm( "ゲームの勝者は、" + winnerMessage + "です。" );
-		
-		$(initializeState);
-
-		$(initializeOsero);
-	//}
+	$(initializeOsero);
 }
 
 function restart() {
@@ -457,9 +451,60 @@ function think1() {
 			if(x==(rows-1) && y==(columns-1))
 			{
 				pass(false);
-				break;
+				break LOOP;
 			}
 		}
 	}
 	initializeOsero();
+}
+
+function think2() {
+	
+	var priority = 0;
+	var priorityMapObj = {};
+	var priorityArray = [];
+	
+	LOOP: for(var x = 0; x < rows; x++){
+		for(var y = 0; y < columns; y++) {
+			if(constBoardState[x][y] == 0) {
+				
+				constBoardState[x][y] = player;
+				
+				if(checkPut(x, y))
+				{
+					priority = priorityBoard[x][y];
+					priorityMapObj = { Row: x, Column: y, Priority: priority};
+					priorityArray.push(priorityMapObj);
+					constBoardState[x][y] = 0;
+					
+				} else {
+					constBoardState[x][y] = 0;
+				}
+			}
+		}
+	}
+		
+	if(priorityArray.length > 0) {
+		
+		priorityArray.sort(compare);
+		constBoardState[priorityArray[0].Row][priorityArray[0].Column] = player;
+		reverseOero(priorityArray[0].Row, priorityArray[0].Column);
+		
+		player = getEnemy();
+		enemy = getPlayer();
+	
+		turn++;
+		
+	} else {
+		pass(false);
+	}
+	
+	initializeOsero();
+	
+}
+
+function compare(a, b) {
+	  const priorityA = a.Priority;
+	  const priorityB = b.Priority;
+	  return (priorityA-priorityB);
 }
