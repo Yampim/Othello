@@ -49,7 +49,7 @@ function initializeState() {
 
 function initializeOsero() {
 
-$('#game-board').empty();
+ $('#game-board').empty();
 	
  var board = [];
  
